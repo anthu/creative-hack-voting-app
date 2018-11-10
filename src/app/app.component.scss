@@ -1,0 +1,13 @@
+main {
+  padding: 8px
+}
+
+.team-list {
+  margin: 0 8px;
+
+  mat-action-row {
+    button:not(:last-child) {
+      margin-right: 8px;
+    }
+  }
+}
