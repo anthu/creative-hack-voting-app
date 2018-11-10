@@ -7,7 +7,7 @@
           <mat-panel-title>
             {{team.name}}
 
-            <app-label></app-label>
+            <app-label *ngIf="hasTeamVote(team.id)" [text]="voteForTeam(team.id)"></app-label>
           </mat-panel-title>
 
 
@@ -22,9 +22,9 @@
           fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
         </p>
         <mat-action-row>
-          <button mat-stroked-button>Technology 🤖</button>
-          <button mat-stroked-button>Pitch 🕺</button>
-          <button mat-stroked-button>WTF 🤪</button>
+          <button mat-stroked-button (click)="onVotePitch(team.id)">Pitch 🕺</button>
+          <button mat-stroked-button (click)="onVoteTechnology(team.id)">Technology 🤖</button>
+          <button mat-stroked-button (click)="onVoteWtf(team.id)">WTF 🤪</button>
         </mat-action-row>
       </mat-expansion-panel>
     </mat-accordion>

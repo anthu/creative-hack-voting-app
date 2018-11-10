@@ -16,13 +16,14 @@ export class AppComponent {
   teams$: Observable<any[]>;
   private teamsCollection: AngularFirestoreCollection<any>;
 
+  votes = {
+    pitch: null,
+    technology: null,
+    wtf: null,
+  };
+
   constructor(private afs: AngularFirestore) {
     this.loadTeams();
-
-    // TODO remove - just logging
-    this.teams$.subscribe((foo) => {
-      console.log('teams', foo);
-    });
   }
 
   private loadTeams() {
@@ -37,8 +38,28 @@ export class AppComponent {
     );
   }
 
-  onInteracted(teamId: string) {
-    console.log('interacted with team id', teamId);
+  onVotePitch(id: any) {
+    this.votes.pitch = id;
+  }
+
+  onVoteTechnology(id: any) {
+    this.votes.technology = id;
+  }
+
+  onVoteWtf(id: any) {
+    this.votes.wtf = id;
+  }
+
+  hasTeamVote(id: string) {
+    return this.votes.wtf === id || this.votes.technology === id || this.votes.pitch === id;
+  }
+
+  voteForTeam(id: any) {
+    if (this.votes.wtf === id) {
+      return 'Wtf';
+    } else if (this.votes.pitch === id) {
+      return 'Pitch';
+    }
   }
 }
 
