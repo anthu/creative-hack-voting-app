@@ -7,7 +7,7 @@
             <mat-panel-title>
               {{team.name}}
   
-              <app-label *ngIf="hasTeamVote(team.id)" [text]="voteForTeam(team.id)"></app-label>
+              <app-label *ngIf="hasTeamVote(team.id)" [text]="getVoteTextForTeam(team.id)"></app-label>
             </mat-panel-title>
   
   

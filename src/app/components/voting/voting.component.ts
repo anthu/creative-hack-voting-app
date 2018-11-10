@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Team } from '../../models/team';
-import { ApiTeam } from '../../models/api-team';
+import { TeamsService } from '../../services/teams.service';
 
 @Component({
   selector: 'app-voting',
@@ -11,6 +8,75 @@ import { ApiTeam } from '../../models/api-team';
   styleUrls: ['./voting.component.scss']
 })
 export class VotingComponent  {
+
+  teams$: Observable<any[]>;
+
+
+  votes = {
+    pitch: null,
+    technology: null,
+    wtf: null,
+  };
+
+  constructor(private teamsService: TeamsService) {
+    this.teams$ = this.teamsService.getTeams();
+  }
+
+  onVotePitch(id: any) {
+    this.clearVotesForTeam(id);
+    this.votes.pitch = id;
+  }
+
+  onVoteTechnology(id: any) {
+    this.clearVotesForTeam(id);
+    this.votes.technology = id;
+  }
+
+  onVoteWtf(id: any) {
+    this.clearVotesForTeam(id);
+    this.votes.wtf = id;
+  }
+
+  hasTeamVote(id: string) {
+    return this.votes.wtf === id || this.votes.technology === id || this.votes.pitch === id;
+  }
+
+  clearVotesForTeam(id: string) {
+    this.votes.wtf = this.votes.wtf === id ? null : this.votes.wtf;
+    this.votes.pitch = this.votes.pitch === id ? null : this.votes.pitch;
+    this.votes.technology = this.votes.technology === id ? null : this.votes.technology;
+  }
+
+  getVoteTextForTeam(id: any) {
+    if (this.votes.wtf === id) {
+      return 'Wtf';
+    } else if (this.votes.pitch === id) {
+      return 'Pitch';
+    } else if (this.votes.technology === id) {
+      return 'Technology';
+    }
+    return null;
+  }
+
+}
+
+/*
+import { Component, OnInit } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
+import { Team } from './models/team';
+import { ApiTeam } from './models/api-team';
+import { ActivatedRoute } from '@angular/router';
+import { TokenService } from './services/token.service';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+})
+
+export class AppComponent implements OnInit {
 
   teams$: Observable<any[]>;
   private teamsCollection: AngularFirestoreCollection<any>;
@@ -21,8 +87,16 @@ export class VotingComponent  {
     wtf: null,
   };
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRoute, private tokenService: TokenService) {
     this.loadTeams();
+  }
+
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.pipe(
+      first(),
+      map(params => {
+        this.tokenService.token = params['token'];
+      }));
   }
 
   private loadTeams() {
@@ -38,14 +112,17 @@ export class VotingComponent  {
   }
 
   onVotePitch(id: any) {
+    this.clearVotesForTeam(id);
     this.votes.pitch = id;
   }
 
   onVoteTechnology(id: any) {
+    this.clearVotesForTeam(id);
     this.votes.technology = id;
   }
 
   onVoteWtf(id: any) {
+    this.clearVotesForTeam(id);
     this.votes.wtf = id;
   }
 
@@ -53,12 +130,25 @@ export class VotingComponent  {
     return this.votes.wtf === id || this.votes.technology === id || this.votes.pitch === id;
   }
 
-  voteForTeam(id: any) {
+  clearVotesForTeam(id: string) {
+    this.votes.wtf = this.votes.wtf === id ? null : this.votes.wtf;
+    this.votes.pitch = this.votes.pitch === id ? null : this.votes.pitch;
+    this.votes.technology = this.votes.technology === id ? null : this.votes.technology;
+  }
+
+  getVoteTextForTeam(id: any) {
     if (this.votes.wtf === id) {
       return 'Wtf';
     } else if (this.votes.pitch === id) {
       return 'Pitch';
+    } else if (this.votes.technology === id) {
+      return 'Technology';
     }
+    return null;
   }
-
 }
+
+
+
+
+ */

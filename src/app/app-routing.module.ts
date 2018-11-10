@@ -4,13 +4,14 @@ import { VotingComponent } from './components/voting/voting.component';
 import { ResultsComponent } from './components/results/results.component';
 
 const routes: Routes = [
-  {path:'voting', component: VotingComponent},
-  {path:'results', component: ResultsComponent},
-  {path: '', redirectTo: '/voting', pathMatch: 'full'}  
+  { path: 'voting', component: VotingComponent },
+  { path: 'results', component: ResultsComponent },
+  { path: '', redirectTo: '/voting', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
