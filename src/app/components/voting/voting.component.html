@@ -1,0 +1,32 @@
+<main class="mat-typography mat-app-background">
+    <h1>Teams:</h1>
+    <div class="team-list">
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let team of teams$ | async">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{team.name}}
+  
+              <app-label *ngIf="hasTeamVote(team.id)" [text]="voteForTeam(team.id)"></app-label>
+            </mat-panel-title>
+  
+  
+          </mat-expansion-panel-header>
+          <p>
+            {{ team.description }} <br>
+  
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
+            eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
+            montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
+            eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
+            fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
+          </p>
+          <mat-action-row>
+            <button mat-stroked-button (click)="onVotePitch(team.id)">Pitch 🕺</button>
+            <button mat-stroked-button (click)="onVoteTechnology(team.id)">Technology 🤖</button>
+            <button mat-stroked-button (click)="onVoteWtf(team.id)">WTF 🤪</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </main>

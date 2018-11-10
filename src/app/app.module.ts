@@ -9,11 +9,15 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { MaterialModule } from './material/material.module';
 import { LabelComponent } from './components/label/label.component';
+import { VotingComponent } from './components/voting/voting.component';
+import { ResultsComponent } from './components/results/results.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LabelComponent,
+    VotingComponent,
+    ResultsComponent,
   ],
   imports: [
     BrowserModule,
