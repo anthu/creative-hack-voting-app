@@ -7,20 +7,41 @@
 </div>
 <h2>Teams:</h2>
 <ul>
-  <li *ngFor="let team of teams$ | async">
-    {{ team | json }}
-  </li>
+    <mat-list>
+        <mat-list-item *ngFor="let item of teams$ | async"> 
+          <h2 mat-line>{{item.name}}</h2>
+          <p mat-line>{{ item.description }}</p>
+        </mat-list-item>
+      </mat-list>
 </ul>
 
 <h2>Votes:</h2>
 <ul>
-  <li *ngFor="let item of votes$ | async">
-    <div>pitch: {{item.pitch.path}}</div>
-    <div>technology: {{item.technology.path}}</div>
-   <div>wtf: {{item.wtf.path}}</div>
-  </li>
+  <mat-list>
+    <mat-list-item *ngFor="let item of votes$ | async"> {{item.name}} </mat-list-item>
+  </mat-list>
 </ul>
+<mat-expansion-panel *ngFor="let item of teams$ | async">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+        {{item.name}}
+    </mat-panel-title>
+    <mat-panel-description>
+        {{ item.description }}
+        
+    </mat-panel-description>
+   
+  </mat-expansion-panel-header>
+  <mat-action-row>
+      <button mat-flat-button color="primary" (click)="onAddTeam()">Technology</button>
+      <button mat-flat-button color="primary" (click)="onAddTeam()">Pitch</button>
+      <button mat-flat-button color="primary" (click)="onAddTeam()">WTF</button>
 
+      <mat-chip-list>
+          <mat-chip color="primary" >Technology</mat-chip>
+        </mat-chip-list>
+    </mat-action-row>
+</mat-expansion-panel>
 <button mat-flat-button color="primary" (click)="onAddTeam()">add team</button>
 
 <router-outlet></router-outlet>
