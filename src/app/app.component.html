@@ -7,9 +7,20 @@
 </div>
 <h2>Teams:</h2>
 <ul>
-  <li *ngFor="let item of items | async">
-    {{ item.name }}
+  <li *ngFor="let team of teams$ | async">
+    {{ team | json }}
   </li>
 </ul>
+
+<h2>Votes:</h2>
+<ul>
+  <li *ngFor="let item of votes$ | async">
+    <div>pitch: {{item.pitch.path}}</div>
+    <div>technology: {{item.technology.path}}</div>
+   <div>wtf: {{item.wtf.path}}</div>
+  </li>
+</ul>
+
+<button mat-flat-button color="primary" (click)="onAddTeam()">add team</button>
 
 <router-outlet></router-outlet>
