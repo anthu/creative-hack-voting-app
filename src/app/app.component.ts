@@ -39,14 +39,17 @@ export class AppComponent {
   }
 
   onVotePitch(id: any) {
+    this.clearVotesForTeam(id);
     this.votes.pitch = id;
   }
 
   onVoteTechnology(id: any) {
+    this.clearVotesForTeam(id);
     this.votes.technology = id;
   }
 
   onVoteWtf(id: any) {
+    this.clearVotesForTeam(id);
     this.votes.wtf = id;
   }
 
@@ -54,12 +57,21 @@ export class AppComponent {
     return this.votes.wtf === id || this.votes.technology === id || this.votes.pitch === id;
   }
 
-  voteForTeam(id: any) {
+  clearVotesForTeam(id: string) {
+    this.votes.wtf = this.votes.wtf === id ? null : this.votes.wtf;
+    this.votes.pitch = this.votes.pitch === id ? null : this.votes.pitch;
+    this.votes.technology = this.votes.technology === id ? null : this.votes.technology;
+  }
+
+  getVoteTextForTeam(id: any) {
     if (this.votes.wtf === id) {
       return 'Wtf';
     } else if (this.votes.pitch === id) {
       return 'Pitch';
+    } else if (this.votes.technology === id){
+      return 'Technology';
     }
+    return null;
   }
 }
 
