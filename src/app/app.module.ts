@@ -8,10 +8,12 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { MaterialModule } from './material/material.module';
+import { LabelComponent } from './components/label/label.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LabelComponent,
   ],
   imports: [
     BrowserModule,
