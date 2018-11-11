@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import * as request from 'request-promise';
 const express = require('express');
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -16,54 +15,67 @@ const db = admin.firestore();
 app.post('/vote/:userId', async (req, res) => {
   const userId = req.params.userId;
   try {
-    var userRef = db.collection('Users').doc(userId.toString());
-    let wtfRef = req.body.wtf;
-    var wtfTeamRef = db.collection('Teams').doc(wtfRef.toString());
-    let pitchRef = req.body.pitch;
-    var pitchTeamRef = db.collection('Teams').doc(pitchRef.toString());
-    let techRef = req.body.tech;
-    var techTeamRef = db.collection('Teams').doc(techTeamRef.toString());
+    const userRef = db.collection('Users').doc(userId.toString());
+    const wtfRef = req.body.wtf;
+    const wtfTeamRef = db.collection('Teams').doc(wtfRef.toString());
+    const pitchRef = req.body.pitch;
+    const pitchTeamRef = db.collection('Teams').doc(pitchRef.toString());
+    const techRef = req.body.tech;
+    const techTeamRef = db.collection('Teams').doc(techRef.toString());
 
-    var getWtfTeamRef = wtfTeamRef.get()
+    wtfTeamRef.get()
       .then(teamRef => {
         if(!teamRef.exists) {
           throw new Error("Team does not exists");
         }
+      })
+      .catch(error => {
+        throw new Error(error.message);
       })
     
-    var getPitchTeamRef = pitchTeamRef.get()
+    pitchTeamRef.get()
       .then(teamRef => {
         if(!teamRef.exists) {
           throw new Error("Team does not exists");
         }
       })
-    
-    var geTechTeamRef = techTeamRef.get()
+      .catch(error => {
+        throw new Error(error.message);
+      })
+    techTeamRef.get()
       .then(teamRef => {
         if(!teamRef.exists) {
           throw new Error("Team does not exists");
         }
       })
-
-    var getUser = userRef.get()
+      .catch(error => {
+        throw new Error(error.message);
+      })
+    userRef.get()
       .then(user => {
         if(!user.exists) {
           throw new Error("Wrong User");
         } else {
-          let userTeam = user.get('team');
-          if (userTeam.in([wtfRef, pitchRef, techRef])) {
+          const userTeam = user.get('team');
+          if (userTeam === wtfRef || userTeam === pitchRef || userTeam === techRef) {
             throw new Error("You may not vote for you own team");
           }
-          user['wtf'] = wtfRef;
-          user['pitch'] = pitchRef;
-          user['technology'] = techRef;
 
-          userRef.set(user);
+          console.log(user);
+          userRef.set({"wtf": wtfRef, "pitch": pitchRef, "technology": techRef}, {merge: true})
+          .then(user2 => {res.sendStatus(200).json(user2)})
+          .catch(error => {
+            throw new Error(error.message);
+          });
         }
+      })
+      .catch(error => {
+        throw new Error(error.message);
       })
   } catch(error) {
     console.log('Error detecting sentiment or saving message', error.message);
-    res.sendStatus(500);
+    res.sendStatus(500).json(error);
   }
 });
 
+exports.api = functions.https.onRequest(app);
