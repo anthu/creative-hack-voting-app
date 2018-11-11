@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TeamsService } from '../../services/teams.service';
 import { VotingService } from '../../services/voting.service';
-import { Votes } from '../../models/votes';
+import { Vote } from '../../models/vote';
 import { MatDialog } from '@angular/material';
 import { DoVoteDialogComponent } from '../do-vote-dialog/do-vote-dialog.component';
+import { catchError, map, tap } from 'rxjs/operators';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-voting',
@@ -15,11 +17,12 @@ export class VotingComponent {
 
   teams$: Observable<any[]>;
 
-  votes: Votes = {
+  votes: Vote = {
     pitch: null,
     technology: null,
     wtf: null,
   };
+  private showSpinner: boolean;
 
   constructor(private teamsService: TeamsService, private votingService: VotingService, public dialog: MatDialog) {
     this.teams$ = this.teamsService.getTeams();
@@ -62,12 +65,18 @@ export class VotingComponent {
   }
 
   onSave() {
-    if (this.everyVoteMade()) {
+    // if (this.everyVoteMade()) {
       console.log('will save');
-      this.votingService.saveVotes(this.votes);
-    } else {
-      const dialogRef = this.dialog.open(DoVoteDialogComponent);
-    }
+      this.showSpinner = true;
+      this.votingService.saveVotes(this.votes).subscribe((successful) => {
+        this.showSpinner = false;
+        if (!successful) {
+          this.dialog.open(ErrorDialogComponent);
+        }
+      });
+    // } else {
+    //   this.dialog.open(DoVoteDialogComponent);
+    // }
 
   }
 
@@ -79,8 +88,8 @@ export class VotingComponent {
     if (this.votes.technology) {
       teamsVotedFor.add(this.votes.technology);
     }
-    if (this.votes.technology) {
-      teamsVotedFor.add(this.votes.technology);
+    if (this.votes.wtf) {
+      teamsVotedFor.add(this.votes.wtf);
     }
     return teamsVotedFor.size === 3;
   }

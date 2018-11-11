@@ -26,7 +26,7 @@ app.post('/vote/:userId', async (req, res) => {
     const wtfTeamRef = db.collection('Teams').doc(wtfRef.toString());
     const pitchRef = req.body.pitch;
     const pitchTeamRef = db.collection('Teams').doc(pitchRef.toString());
-    const techRef = req.body.tech;
+    const techRef = req.body.technology;
     const techTeamRef = db.collection('Teams').doc(techRef.toString());
 
     wtfTeamRef.get()
@@ -69,11 +69,10 @@ app.post('/vote/:userId', async (req, res) => {
 
           console.log(user);
           userRef.set({"wtf": wtfRef, "pitch": pitchRef, "technology": techRef}, {merge: true})
-          .then(user2 => {
-              // res.header("Access-Control-Allow-Origin", "*");
-              // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-              res.sendStatus(200).json(user2)}
-            )
+          .then(writestatistics => {
+              res.setHeader('Content-Type', 'application/json');
+              res.status(200).send({"wtf": wtfRef, "pitch": pitchRef, "technology": techRef});
+            })
           .catch(error => {
             throw new Error(error.message);
           });
@@ -83,10 +82,8 @@ app.post('/vote/:userId', async (req, res) => {
         throw new Error(error.message);
       })
   } catch(error) {
-    // res.header("Access-Control-Allow-Origin", "*");
-    // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log('Error detecting sentiment or saving message', error.message);
-    res.sendStatus(500).json(error);
+    res.status(500).send(error);
   }
 });
 

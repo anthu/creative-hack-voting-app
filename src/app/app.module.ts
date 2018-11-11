@@ -13,6 +13,7 @@ import { VotingComponent } from './components/voting/voting.component';
 import { ResultsComponent } from './components/results/results.component';
 import { DoVoteDialogComponent } from './components/do-vote-dialog/do-vote-dialog.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
     VotingComponent,
     ResultsComponent,
     DoVoteDialogComponent,
+    ErrorDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,13 +30,13 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    
+
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DoVoteDialogComponent],
+  entryComponents: [DoVoteDialogComponent, ErrorDialogComponent],
 })
 export class AppModule {
 }
