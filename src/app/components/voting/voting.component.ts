@@ -33,7 +33,8 @@ export class VotingComponent {
     technology: null,
     wtf: null,
   };
-  private showSpinner: boolean;
+
+  showSpinner: boolean;
 
   constructor(private teamsService: TeamsService,
               private votingService: VotingService,
