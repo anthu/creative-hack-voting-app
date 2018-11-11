@@ -12,6 +12,7 @@ import { LabelComponent } from './components/label/label.component';
 import { VotingComponent } from './components/voting/voting.component';
 import { ResultsComponent } from './components/results/results.component';
 import { DoVoteDialogComponent } from './components/do-vote-dialog/do-vote-dialog.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { DoVoteDialogComponent } from './components/do-vote-dialog/do-vote-dialo
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,

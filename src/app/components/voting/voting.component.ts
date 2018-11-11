@@ -62,21 +62,26 @@ export class VotingComponent {
   }
 
   onSave() {
-    console.log('will save');
     if (this.everyVoteMade()) {
+      console.log('will save');
       this.votingService.saveVotes(this.votes);
     } else {
-      const dialogRef = this.dialog.open(DoVoteDialogComponent, );
+      const dialogRef = this.dialog.open(DoVoteDialogComponent);
     }
 
   }
 
   private everyVoteMade() {
     const teamsVotedFor: Set<string> = new Set();
-    teamsVotedFor.add(this.votes.pitch);
-    teamsVotedFor.add(this.votes.technology);
-    teamsVotedFor.add(this.votes.wtf);
-
+    if (this.votes.pitch) {
+      teamsVotedFor.add(this.votes.pitch);
+    }
+    if (this.votes.technology) {
+      teamsVotedFor.add(this.votes.technology);
+    }
+    if (this.votes.technology) {
+      teamsVotedFor.add(this.votes.technology);
+    }
     return teamsVotedFor.size === 3;
   }
 }
