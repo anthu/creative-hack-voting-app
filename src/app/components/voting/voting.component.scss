@@ -1,16 +1,23 @@
-main {
-    padding: 8px
+.instructions {
+  margin-bottom: 16px;
+}
+
+.team-list {
+  margin-bottom: 80px;
+
+  app-label {
+    margin-left: 16px;
   }
-  
-  .team-list {
-  
-    app-label {
-      margin-left: 16px;
-    }
-  
-    mat-action-row {
-      button:not(:last-child) {
-        margin-right: 8px;
-      }
+
+  mat-action-row {
+    button:not(:last-child) {
+      margin-right: 8px;
     }
   }
+}
+
+.fab-button {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+}
