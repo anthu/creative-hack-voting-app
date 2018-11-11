@@ -3,7 +3,7 @@ import { Vote } from '../models/vote';
 import { HttpClient } from '@angular/common/http';
 import { TokenService } from './token.service';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -14,13 +14,9 @@ export class VotingService {
   }
 
   public saveVotes(votes: Vote): Observable<any> {
-    // const url = `https://us-central1-creativehackvoting.cloudfunctions.net/api/vote/${this.tokenService.token}`;
-    const body = votes;
+    const url = `https://us-central1-creativehackvoting.cloudfunctions.net/api/vote/${this.tokenService.token}`;
 
-    const url = `https://us-central1-creativehackvoting.cloudfunctions.net/api/vote/3OaljWbJPHJLUTMMpoNm`;
-    // const body = { wtf: 'CFPOakjUwpteqor46Zxy', pitch: 'CFPOakjUwpteqor46Zxy', technology: 'CrHvJGMgNyu3P8akaI02' };
-
-    return this.http.post<Vote>(url, body).pipe(
+    return this.http.post<Vote>(url, votes).pipe(
       map(result => {
         console.log('result received', result);
         return of(true);

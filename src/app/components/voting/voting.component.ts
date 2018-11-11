@@ -5,7 +5,6 @@ import { VotingService } from '../../services/voting.service';
 import { Vote } from '../../models/vote';
 import { MatDialog } from '@angular/material';
 import { DoVoteDialogComponent } from '../do-vote-dialog/do-vote-dialog.component';
-import { catchError, map, tap } from 'rxjs/operators';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 @Component({
@@ -65,7 +64,7 @@ export class VotingComponent {
   }
 
   onSave() {
-    // if (this.everyVoteMade()) {
+    if (this.everyVoteMade()) {
       console.log('will save');
       this.showSpinner = true;
       this.votingService.saveVotes(this.votes).subscribe((successful) => {
@@ -74,10 +73,9 @@ export class VotingComponent {
           this.dialog.open(ErrorDialogComponent);
         }
       });
-    // } else {
-    //   this.dialog.open(DoVoteDialogComponent);
-    // }
-
+    } else {
+      this.dialog.open(DoVoteDialogComponent);
+    }
   }
 
   private everyVoteMade() {

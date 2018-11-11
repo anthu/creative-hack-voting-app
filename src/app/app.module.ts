@@ -14,6 +14,7 @@ import { ResultsComponent } from './components/results/results.component';
 import { DoVoteDialogComponent } from './components/do-vote-dialog/do-vote-dialog.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
+import { NoTokenComponent } from './components/no-token/no-token.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
     ResultsComponent,
     DoVoteDialogComponent,
     ErrorDialogComponent,
+    NoTokenComponent,
   ],
   imports: [
     BrowserModule,
