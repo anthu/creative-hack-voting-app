@@ -1,1 +1,15 @@
-<h2>Results: {{( results$ | async)}}</h2>
+
+<table>
+    <tr>
+        <th>Team Name</th>
+        <th>Pitch Votes</th>
+        <th>Technical Votes</th>
+        <th>WTF Votes</th>
+    </tr>
+    <tr *ngFor="let teams of results$ | async">
+        <td>{{teams.name}}</td>
+        <td>{{teams.pitch}}</td>
+        <td>{{teams.technology}}</td>
+        <td>{{teams.wtf}}</td>
+    </tr>
+</table>
