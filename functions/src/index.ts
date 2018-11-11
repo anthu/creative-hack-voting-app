@@ -18,6 +18,97 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get('/results', async (req, res) => {
+  const teamVotes = [];
+  try {
+    db.collection('Teams').get()
+    .then((allTeams) => {
+      // Setup the Votes-Object for each tema
+      allTeams.forEach((team) => {
+        teamVotes.push({
+          id: team.id,
+          name: team.get("name"),
+          pitch: 0,
+          technology: 0,
+          wtf: 0
+        });
+      });
+
+      db.collection('Users').get()
+      .then((allUsers) => {
+        // For all users, count their vote
+        allUsers.forEach((user) => {
+          teamVotes.forEach((team) => {
+            if((team.id) === user.get("pitch")){
+              team.pitch++;
+            }
+            if(team.id === user.get("technology")){
+              team.technology++;
+            }
+            if(team.id === user.get("wtf")){
+              team.wtf++;
+            }
+          })
+        });
+
+        // Dummy values
+        // let bestPitch = [{
+        //   name: "no best pitch yet",
+        //   id: "dummyP",
+        //   pitch: 0,
+        //   technology: 0,
+        //   wtf: 0
+        // }];
+        // let bestTechnology = [{
+        //   name: "no best technology yet",
+        //   id: "dummyT",
+        //   pitch: 0,
+        //   technology: 0,
+        //   wtf: 0
+        // }];
+        // let bestWtf = [{
+        //   name: "no best wtf yet",
+        //   id: "dummyW",
+        //   pitch: 0,
+        //   technology: 0,
+        //   wtf: 0
+        // }];
+
+        // teamVotes.forEach((team) => {
+          // if(team.pitch > bestPitch[0].pitch){
+          //   bestPitch = [...team];           
+          // }
+          // // else if(team.pitch === bestPitch[0].pitch){
+          // //   bestPitch.push(team);
+          // // }
+          // if(team.technology > bestTechnology[0].technology){
+          //   bestTechnology = [...team];
+          // }
+          // // else if(team.technology === bestTechnology[0].technology){
+          // //   bestTechnology.push(team);
+          // // }
+          // if(team.wtf > bestWtf[0].wtf){
+          //   bestWtf = [...team];
+          // }
+          // // else if(team.wtf === bestWtf[0].wtf){
+          // //   bestWtf.push(team);
+          // // }
+        // });
+        res.setHeader('Content-Type', 'application/json');
+        res.status(200).send(teamVotes);
+      })
+      .catch(error => {
+        throw new Error(error.message);
+      });
+    })
+    .catch(error => {
+      throw new Error(error.message);
+    });
+  } catch(error){
+    res.status(500).send(error);
+  }  
+});
+
 app.post('/vote/:userId', async (req, res) => {
   const userId = req.params.userId;
   try {

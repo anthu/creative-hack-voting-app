@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Results } from '../../models/results';
+import { ResultsService } from '../../services/results.service';
 
 @Component({
   selector: 'app-results',
@@ -7,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultsComponent implements OnInit {
 
-  constructor() { }
+  results$: Observable<any>;
+
+  constructor(private resultsService: ResultsService) { 
+    this.results$ = this.resultsService.getResults();
+  }
 
   ngOnInit() {
   }
