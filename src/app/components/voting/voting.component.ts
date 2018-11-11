@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TeamsService } from '../../services/teams.service';
-import { VotingService } from '../../services/voting.service';
+import { MyVotes, VotingService } from '../../services/voting.service';
 import { Vote } from '../../models/vote';
 import { MatDialog } from '@angular/material';
 import { DoVoteDialogComponent } from '../do-vote-dialog/do-vote-dialog.component';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-voting',
@@ -24,7 +25,18 @@ export class VotingComponent {
   private showSpinner: boolean;
 
   constructor(private teamsService: TeamsService, private votingService: VotingService, public dialog: MatDialog) {
-    this.teams$ = this.teamsService.getTeams();
+    this.teams$ = this.teamsService.teams$;
+    this.initVotesFromBackend();
+  }
+
+  private initVotesFromBackend() {
+    this.votingService.myVotes$.pipe(first()).subscribe((myVotes: MyVotes) => {
+      this.votes = {
+        pitch: myVotes.pitch ? myVotes.pitch.id : null,
+        technology: myVotes.technology ? myVotes.technology.id : null,
+        wtf: myVotes.wtf ? myVotes.wtf.id : null,
+      };
+    });
   }
 
   onVotePitch(id: any) {
