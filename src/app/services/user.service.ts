@@ -18,13 +18,12 @@ export interface User {
 export class UserService {
 
   private itemDoc: AngularFirestoreDocument<User>;
-  public me$: Observable<User>;
+  public get me$() {
+    return this.itemDoc.valueChanges();
+  }
 
   constructor(private afs: AngularFirestore, private tokenService: TokenService) {
     this.itemDoc = this.afs.doc<User>(`Users/${this.tokenService.token}`);
-    this.me$ = this.itemDoc.valueChanges();
-
-    this.me$.subscribe(me => console.log('me', me));
   }
 
 }

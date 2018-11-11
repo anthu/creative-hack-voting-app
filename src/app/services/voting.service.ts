@@ -3,7 +3,7 @@ import { Vote } from '../models/vote';
 import { HttpClient } from '@angular/common/http';
 import { TokenService } from './token.service';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { User, UserService } from './user.service';
 import { TeamsService } from './teams.service';
 import { Team } from '../models/team';
@@ -50,15 +50,17 @@ export class VotingService {
   }
 
   private getMyVotes(): Observable<MyVotes> {
-    return this.userService.me$.pipe(switchMap((user: User) => {
-      return combineLatest(
-        this.teamService.getTeam(user.pitch),
-        this.teamService.getTeam(user.technology),
-        this.teamService.getTeam(user.wtf),
-      ).pipe(map(([teamForPitch, teamForTechnology, teamForWtf]: Team[]) => {
-        return { pitch: teamForPitch || null, technology: teamForTechnology || null, wtf: teamForWtf || null };
+    return this.userService.me$.pipe(
+      filter(u => !!u),
+      switchMap((user: User) => {
+        return combineLatest(
+          this.teamService.getTeam(user.pitch),
+          this.teamService.getTeam(user.technology),
+          this.teamService.getTeam(user.wtf),
+        ).pipe(map(([teamForPitch, teamForTechnology, teamForWtf]: Team[]) => {
+          return { pitch: teamForPitch || null, technology: teamForTechnology || null, wtf: teamForWtf || null };
+        }));
       }));
-    }));
   }
 
 }
