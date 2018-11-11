@@ -226,26 +226,30 @@ app.post('/vote/:userId', async (req, res) => {
 // });
 
 
-// app.get('/getUsers', async (req, res) => {
-//   const num = req.params.num;
+app.get('/me/:token', async (req, res) => {
+  const token = req.params.token;
   
-//   try {
-//     const usersRef = db.collection('Users');
-//     usersRef.get()
-//     .then(snapshot => {
-//       res.setHeader('Content-Type', 'application/json');
-//       res.send(JSON.stringify(snapshot));
-//     })
-//     .catch(err => {
-//       console.log('Error getting documents', err);
-//       res.status(500).send(err);
-//       return;
-//     });
-//   } catch(error) {
-//     console.log('Error detecting sentiment or saving message', error.message);
-//     res.status(500).send(error);
-//   }
-// });
+  try {
+    const usersRef = db.collection('Users').doc(token);
+    usersRef.get()
+    .then(user => {
+      if(!user.exists) {
+        res.status(404).send("User does not exists");
+        throw new Error("User does not exists");
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(user.data()));
+    })
+    .catch(err => {
+      console.log('Error getting documents', err);
+      res.status(500).send(err);
+      return;
+    });
+  } catch(error) {
+    console.log('Error detecting sentiment or saving message', error.message);
+    res.status(500).send(error);
+  }
+});
 // app.get('/updateUsers', async (req, res) => {
 //   const num = req.params.num;
   
