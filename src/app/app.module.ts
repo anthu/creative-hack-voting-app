@@ -24,7 +24,7 @@ import { ResultsComponent } from './components/results/results.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-
+    
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
   ],
