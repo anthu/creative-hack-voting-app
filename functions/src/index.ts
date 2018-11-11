@@ -124,6 +124,7 @@ app.post('/vote/:userId', async (req, res) => {
     wtfTeamRef.get()
       .then(teamRef => {
         if(!teamRef.exists) {
+          res.status(400).send("Team does not exists");
           throw new Error("Team does not exists");
         }
       })
@@ -134,6 +135,8 @@ app.post('/vote/:userId', async (req, res) => {
     pitchTeamRef.get()
       .then(teamRef => {
         if(!teamRef.exists) {
+          res.status(400).send("Team does not exists");
+
           throw new Error("Team does not exists");
         }
       })
@@ -143,6 +146,8 @@ app.post('/vote/:userId', async (req, res) => {
     techTeamRef.get()
       .then(teamRef => {
         if(!teamRef.exists) {
+          res.status(400).send("Team does not exists");
+
           throw new Error("Team does not exists");
         }
       })
@@ -156,6 +161,7 @@ app.post('/vote/:userId', async (req, res) => {
         } else {
           const userTeam = user.get('team');
           if (userTeam === wtfRef || userTeam === pitchRef || userTeam === techRef) {
+            res.status(400).send("You may not vote for you own team");
             throw new Error("You may not vote for you own team");
           }
 

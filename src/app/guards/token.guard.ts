@@ -16,9 +16,9 @@ export class TokenGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    if (this.tokenService.token) {
-      return true;
-    }
+    // if (this.tokenService.token) {
+    //   return true;
+    // }
     if (next.queryParams.token) {
       this.tokenService.token = next.queryParams.token;
       console.log('set token in canActivate');
