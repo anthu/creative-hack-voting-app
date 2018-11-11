@@ -32,16 +32,16 @@ export class VotingComponent {
               public dialog: MatDialog,
               private userService: UserService) {
     this.teams$ = this.teamsService.teams$;
-    this.initVotesFromBackend();
     this.me$ = this.userService.me$;
+    this.initVotesFromBackend();
   }
 
   private initVotesFromBackend() {
-    this.votingService.myVotes$.pipe(first()).subscribe((myVotes: MyVotes) => {
+    this.me$.subscribe((me: User) => {
       this.votes = {
-        pitch: myVotes.pitch ? myVotes.pitch.id : null,
-        technology: myVotes.technology ? myVotes.technology.id : null,
-        wtf: myVotes.wtf ? myVotes.wtf.id : null,
+        pitch: me.pitch,
+        technology: me.technology,
+        wtf: me.wtf,
       };
     });
   }
@@ -83,17 +83,17 @@ export class VotingComponent {
   }
 
   onSave() {
-    if (this.everyVoteMade()) {
+    if (!this.everyVoteMade()) {
+      this.dialog.open(DoVoteDialogComponent);
+    } else {
       console.log('will save');
       this.showSpinner = true;
-      this.votingService.saveVotes(this.votes).subscribe((successful) => {
+      this.votingService.saveVotes(this.votes).subscribe((successful: boolean) => {
         this.showSpinner = false;
         if (!successful) {
           this.dialog.open(ErrorDialogComponent);
         }
       });
-    } else {
-      this.dialog.open(DoVoteDialogComponent);
     }
   }
 

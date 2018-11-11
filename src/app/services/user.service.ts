@@ -18,7 +18,7 @@ export interface User {
 export class UserService {
 
   private itemDoc: AngularFirestoreDocument<User>;
-  public get me$() {
+  public get me$(): Observable<User> {
     return this.itemDoc.valueChanges();
   }
 

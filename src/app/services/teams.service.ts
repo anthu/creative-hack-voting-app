@@ -24,18 +24,4 @@ export class TeamsService {
       )),
     );
   }
-
-  public getTeam(id: string): Observable<Team> {
-    return this.teams$.pipe(map((teams: Team[]) => {
-      let ret: Team = null;
-
-      teams.forEach(t => {
-        if (id === t.id) {
-          ret = t;
-        }
-      });
-
-      return ret;
-    }));
-  }
 }

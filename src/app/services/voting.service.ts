@@ -19,13 +19,8 @@ export interface MyVotes {
 })
 export class VotingService {
 
-  myVotes$: Observable<MyVotes>;
-
   constructor(private http: HttpClient,
-              private tokenService: TokenService,
-              private userService: UserService,
-              private teamService: TeamsService) {
-    this.myVotes$ = this.getMyVotes();
+              private tokenService: TokenService) {
   }
 
   public saveVotes(votes: Vote): Observable<any> {
@@ -47,20 +42,6 @@ export class VotingService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
-  }
-
-  private getMyVotes(): Observable<MyVotes> {
-    return this.userService.me$.pipe(
-      filter(u => !!u),
-      switchMap((user: User) => {
-        return combineLatest(
-          this.teamService.getTeam(user.pitch),
-          this.teamService.getTeam(user.technology),
-          this.teamService.getTeam(user.wtf),
-        ).pipe(map(([teamForPitch, teamForTechnology, teamForWtf]: Team[]) => {
-          return { pitch: teamForPitch || null, technology: teamForTechnology || null, wtf: teamForWtf || null };
-        }));
-      }));
   }
 
 }
