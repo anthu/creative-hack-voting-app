@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 const express = require('express');
+// const QRCode = require('qrcode');
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
@@ -177,5 +178,88 @@ app.post('/vote/:userId', async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+// app.get('/generateUsers/:num', async (req, res) => {
+//   const num = req.params.num;
+//   let result = ""
+//   try {
+//     const teamsRef = db.collection('Teams');
+//     teamsRef.get()
+//     .then(snapshot => {
+//       snapshot.forEach(team => {
+//         for(let i=0; i<num; i++) {
+//           db.collection('Users').add({
+//             team: team.id,
+//             teamName: team.data().name,
+//             pitch: "",
+//             tech: "",
+//             wtf: ""
+//           }).then(user => {
+//             QRCode.toDataURL('https://creativehackvoting.firebaseapp.com/voting?token=' + user.id, function (err, url) {
+//               result += '<tr><td><image src="' + url + '"></td><td>' + team.data().name + '</td></tr>'
+//               // console.log(result)
+//             })
+//           }).catch(err => {
+//             res.status(500).send(err);
+//             return;
+//           });
+//         }
+//       })
+//       // setTimeout(console.log(result), 5000
+//       setTimeout(function() {res.status(200).send('<html><body><table>' + result + '</table></body></html>')}, 3000);
+//     })
+//     .catch(err => {
+//       console.log('Error getting documents', err);
+//       res.status(500).send(err);
+//       return;
+//     });
+//   } catch(error) {
+//     console.log('Error detecting sentiment or saving message', error.message);
+//     res.status(500).send(error);
+//   }
+// });
+
+
+// app.get('/getUsers', async (req, res) => {
+//   const num = req.params.num;
+  
+//   try {
+//     const usersRef = db.collection('Users');
+//     usersRef.get()
+//     .then(snapshot => {
+//       res.setHeader('Content-Type', 'application/json');
+//       res.send(JSON.stringify(snapshot));
+//     })
+//     .catch(err => {
+//       console.log('Error getting documents', err);
+//       res.status(500).send(err);
+//       return;
+//     });
+//   } catch(error) {
+//     console.log('Error detecting sentiment or saving message', error.message);
+//     res.status(500).send(error);
+//   }
+// });
+// app.get('/updateUsers', async (req, res) => {
+//   const num = req.params.num;
+  
+//   try {
+//     const usersRef = db.collection('Users');
+//     usersRef.get()
+//     .then(snapshot => {
+//       snapshot.forEach(item => {
+//         db.collection('Users').doc(item.id).set({pitch: "", tech: "", wtf: ""}, {merge: true});
+//       })
+//     })
+//     .catch(err => {
+//       console.log('Error getting documents', err);
+//       res.status(500).send(err);
+//       return;
+//     });
+//   } catch(error) {
+//     console.log('Error detecting sentiment or saving message', error.message);
+//     res.status(500).send(error);
+//   }
+// });
 
 exports.api = functions.https.onRequest(app);
