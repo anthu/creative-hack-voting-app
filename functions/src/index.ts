@@ -12,6 +12,12 @@ const app = express();
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.post('/vote/:userId', async (req, res) => {
   const userId = req.params.userId;
   try {
@@ -32,7 +38,7 @@ app.post('/vote/:userId', async (req, res) => {
       .catch(error => {
         throw new Error(error.message);
       })
-    
+
     pitchTeamRef.get()
       .then(teamRef => {
         if(!teamRef.exists) {
@@ -63,7 +69,11 @@ app.post('/vote/:userId', async (req, res) => {
 
           console.log(user);
           userRef.set({"wtf": wtfRef, "pitch": pitchRef, "technology": techRef}, {merge: true})
-          .then(user2 => {res.sendStatus(200).json(user2)})
+          .then(user2 => {
+              // res.header("Access-Control-Allow-Origin", "*");
+              // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+              res.sendStatus(200).json(user2)}
+            )
           .catch(error => {
             throw new Error(error.message);
           });
@@ -73,6 +83,8 @@ app.post('/vote/:userId', async (req, res) => {
         throw new Error(error.message);
       })
   } catch(error) {
+    // res.header("Access-Control-Allow-Origin", "*");
+    // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log('Error detecting sentiment or saving message', error.message);
     res.sendStatus(500).json(error);
   }
