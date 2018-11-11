@@ -232,9 +232,13 @@ app.get('/me/:token', async (req, res) => {
   try {
     const usersRef = db.collection('Users').doc(token);
     usersRef.get()
-    .then(snapshot => {
+    .then(user => {
+      if(!user.exists) {
+        res.status(404).send("User does not exists");
+        throw new Error("User does not exists");
+      }
       res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify(snapshot));
+      res.send(JSON.stringify(user.data()));
     })
     .catch(err => {
       console.log('Error getting documents', err);
