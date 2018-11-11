@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Results } from '../models/results';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
