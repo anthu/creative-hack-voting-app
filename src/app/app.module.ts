@@ -11,6 +11,8 @@ import { MaterialModule } from './material/material.module';
 import { LabelComponent } from './components/label/label.component';
 import { VotingComponent } from './components/voting/voting.component';
 import { ResultsComponent } from './components/results/results.component';
+import { DoVoteDialogComponent } from './components/do-vote-dialog/do-vote-dialog.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,9 +20,11 @@ import { ResultsComponent } from './components/results/results.component';
     LabelComponent,
     VotingComponent,
     ResultsComponent,
+    DoVoteDialogComponent,
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
@@ -29,6 +33,8 @@ import { ResultsComponent } from './components/results/results.component';
     AngularFirestoreModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DoVoteDialogComponent],
 })
-export class AppModule { }
+export class AppModule {
+}
