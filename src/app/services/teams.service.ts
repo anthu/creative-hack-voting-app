@@ -14,6 +14,8 @@ export class TeamsService {
   private teamAngularFirestoreCollection;
   public teams$: Observable<Team[]>;
 
+  public teams: Team[] = [];
+
   constructor(private afs: AngularFirestore, private userService: UserService) {
     this.teamAngularFirestoreCollection = this.afs.collection<Team>('Teams');
     this.teams$ = this.teamAngularFirestoreCollection.snapshotChanges().pipe(
@@ -23,6 +25,6 @@ export class TeamsService {
           return { id, ...data } as Team;
         },
       )),
-    );
+    ).subscribe((teams) => this.teams = teams);
   }
 }

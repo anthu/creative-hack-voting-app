@@ -23,7 +23,10 @@ export class UserService {
     return this.httpClient.get<User>(url);
   }
 
+  public me: User;
+
   constructor(private httpClient: HttpClient, private tokenService: TokenService) {
+    this.me$.subscribe(me => this.me = me);
   }
 
 }

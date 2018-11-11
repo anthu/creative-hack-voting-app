@@ -8,6 +8,7 @@ import { DoVoteDialogComponent } from '../do-vote-dialog/do-vote-dialog.componen
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { first } from 'rxjs/operators';
 import { User, UserService } from '../../services/user.service';
+import { Team } from '../../models/team';
 
 @Component({
   selector: 'app-voting',
@@ -18,6 +19,13 @@ export class VotingComponent {
 
 
   teams$: Observable<any[]>;
+  get teams(): Team[] {
+    const tempT = this.teamsService.teams;
+    return tempT.filter((t: Team) => {
+      return (t.id !== this.userService.me.team);
+    });
+    // return tempT;
+  }
   me$: Observable<User>;
 
   votes: Vote = {
