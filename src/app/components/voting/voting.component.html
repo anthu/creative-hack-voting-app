@@ -1,7 +1,7 @@
 <section>
 
   <h1>Voting</h1>
-  <h2>Hi {{(me$ | async)?.name}}</h2>
+  <h2>Hi User from team {{(me$ | async)?.teamName}}</h2>
 
   <div class="instructions">
     <p>
@@ -12,6 +12,7 @@
     </p>
 
   </div>
+
   <div class="team-list">
     <mat-accordion>
       <mat-expansion-panel *ngFor="let team of teams$ | async">
@@ -25,13 +26,7 @@
 
         </mat-expansion-panel-header>
         <p>
-          {{ team.description }} <br>
-
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
-          eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
-          montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
-          eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
-          fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
+          {{ team.description }}
         </p>
         <mat-action-row>
           <button mat-stroked-button (click)="onVotePitch(team.id)">Pitch 🕺</button>

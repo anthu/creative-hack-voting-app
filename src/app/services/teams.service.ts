@@ -4,6 +4,7 @@ import { filter, map } from 'rxjs/operators';
 import { ApiTeam } from '../models/api-team';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class TeamsService {
   private teamAngularFirestoreCollection;
   public teams$: Observable<Team[]>;
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, private userService: UserService) {
     this.teamAngularFirestoreCollection = this.afs.collection<Team>('Teams');
     this.teams$ = this.teamAngularFirestoreCollection.snapshotChanges().pipe(
       map((teams: any[]) => teams.map((t) => {

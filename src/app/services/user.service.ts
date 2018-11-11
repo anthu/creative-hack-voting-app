@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { TokenService } from './token.service';
+import { HttpClient } from '@angular/common/http';
 
 export interface User {
-  name: string;
+  teamName: string;
   pitch: string;
   team: string;
   technology: string;
@@ -17,13 +18,12 @@ export interface User {
 
 export class UserService {
 
-  private itemDoc: AngularFirestoreDocument<User>;
   public get me$(): Observable<User> {
-    return this.itemDoc.valueChanges();
+    const url = `https://us-central1-creativehackvoting.cloudfunctions.net/api/me/${this.tokenService.token}`;
+    return this.httpClient.get<User>(url);
   }
 
-  constructor(private afs: AngularFirestore, private tokenService: TokenService) {
-    this.itemDoc = this.afs.doc<User>(`Users/${this.tokenService.token}`);
+  constructor(private httpClient: HttpClient, private tokenService: TokenService) {
   }
 
 }
