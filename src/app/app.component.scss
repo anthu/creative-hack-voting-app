@@ -1,0 +1,35 @@
+.toolbar {
+    display: flex;
+
+    &-left{
+        flex: 0 1 33%;
+        // border: 1px solid blue;
+    }  
+    
+    &-center {
+        flex: 0 1 33%;
+        display: flex;
+        justify-content: center;
+        // border: 1px solid green;
+
+        &-item {
+            padding: 2px;
+            margin: 5px;
+            text-decoration: none;
+            color: inherit;
+            flex: 0 1 50%;
+            // border: 1px solid grey;
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    &-right {
+        flex: 0 1 33%;
+        // border: 1px solid red;
+    }
+}
+    
+.main {
+  padding: 8px
+}
