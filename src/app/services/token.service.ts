@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenService {
 
-  public token: string;
+  public set token(token: string) {
+    localStorage.setItem('token', token);
+  }
+
+  public get token() {
+    return localStorage.getItem('token');
+  }
 
   constructor() {
   }
